@@ -26,13 +26,14 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell v-for="item in list" :key="item" :title="item" />
+        <FoodsComponent></FoodsComponent>
       </van-list>
     </main>
   </div>
 </template>
 
 <script>
+import FoodsComponent from '@/components/FoodsComponent.vue'
 export default {
   name: 'ShopView',
   mounted () { // 侦听滚动事件确保侧边导航在顶部
@@ -61,24 +62,27 @@ export default {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
           this.list.push(this.list.length + 1)
         }
         // 加载状态结束
         this.loading = false
         // 数据全部加载完成
-        if (this.list.length >= 40) {
+        if (this.list.length >= 10) {
           this.finished = true
         }
       }, 1000)
     }
+  },
+  components: {
+    FoodsComponent
   }
 }
 </script>
 <style lang="less" scoped="scoped">
   header{
     height: 25vh;
-    margin-bottom: 5vh;
+    margin-bottom: 12vh;
     background-image: linear-gradient(to bottom ,#f46b45,#eea849;);
   }
   .shopDetailBox{
