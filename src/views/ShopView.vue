@@ -26,49 +26,55 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <FoodsComponent/>
+        <FoodsItemSlot/>
       </van-list>
       <!-- <FoodsDetails></FoodsDetails> -->
       <Sku-Component :showOrNot="showSku"/>
     </main>
-    div.
     <van-goods-action>
-      <van-goods-action-icon icon="shopping-cart" color="#f46b45" @click="shopCart"/>
-      <template v-solt="GoodsActionButton">
-        <van-button color="#f46b45" text="立即结算" @click="onClickButton" size="normal" round />
-      </template>
-      <!-- <van-goods-action-button
-        type="danger"
-        text="立即结算"
-        @click="onClickButton"
-
-      /> -->
+      <van-goods-action-icon icon="shopping-cart" color="#f46b45" @click="shopCart" :badge="`${badge}`"/>
+      <p>合计：<span>￥{{ totalPrice }}</span></p>
+      <van-button
+      color="#f46b45"
+      text="立即结算"
+      size="normal"
+      round
+      @click="onClickButton"/>
     </van-goods-action>
+    <ShoppingCart/>
   </div>
 </template>
 
 <script>
-import FoodsComponent from '@/components/FoodsComponent.vue'
+import FoodsItemSlot from '@/components/FoodsItemSlot.vue'
 // import FoodsDetails from '@/components/FoodDetails.vue'
 import SkuComponent from '@/components/SkuComponent.vue'
+import ShoppingCart from '@/components/ShoppingCart.vue'
 export default {
   name: 'ShopView',
-  mounted () { // 侦听滚动事件确保侧边导航在顶部
-    window.addEventListener('scroll', this.handlerScroll)
-  },
   components: {
-    FoodsComponent,
+    FoodsItemSlot,
     // FoodsDetails,
-    SkuComponent
+    SkuComponent,
+    ShoppingCart
   },
+
   data () {
     return {
       active: 0,
       list: [],
       loading: false,
       finished: false,
-      showSku: false
+      showSku: false,
+      totalPrice: 20,
+      badge: 15
     }
+  },
+
+  computed: {
+  },
+  mounted () { // 侦听滚动事件确保侧边导航在顶部
+    window.addEventListener('scroll', this.handlerScroll)
   },
   methods: {
     handlerScroll () {

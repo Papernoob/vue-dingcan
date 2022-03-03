@@ -3,7 +3,9 @@
     <van-image width="100" :src="`${imgsrc}`" fit="cover"/>
     <van-cell title="面条" label="￥20">
       <!-- todo 点击选规格显示 -->
-      <van-button round type="warning" size="mini" @click="showSku()">选规格</van-button>
+      <slot name="selectSku">
+        <van-button round type="warning" size="mini" @click="showSku()">选规格</van-button>
+      </slot>
     </van-cell>
   </div>
 </template>
@@ -13,7 +15,7 @@ export default {
   data () {
     return {
       imgsrc: 'https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/211736/6/11442/105720/61ea62a9E8e701498/feb0e03812ca0780.jpg!q70.dpg.webp',
-      value: 0
+      value: 1
     }
   },
   methods: {
