@@ -1,8 +1,9 @@
 <template>
   <div class="foodBox">
-    <van-image width="100" height="100" :src="`${imgsrc}`" fit="cover" />
+    <van-image width="100" :src="`${imgsrc}`" fit="cover"/>
     <van-cell title="面条" label="￥20">
-      <van-stepper v-model="value" />
+      <!-- todo 点击选规格显示 -->
+      <van-button round type="warning" size="mini" @click="showSku()">选规格</van-button>
     </van-cell>
   </div>
 </template>
@@ -14,12 +15,17 @@ export default {
       imgsrc: 'https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/211736/6/11442/105720/61ea62a9E8e701498/feb0e03812ca0780.jpg!q70.dpg.webp',
       value: 0
     }
+  },
+  methods: {
+    showSku () {
+    }
   }
 }
 </script>
 <style lang="less" scoped>
 .foodBox{
   display: flex;
+  justify-content: space-between;
 }
 /deep/.van-image{
   padding: 5px;
@@ -29,7 +35,6 @@ export default {
 }
 /deep/.van-cell{
   flex: auto;
-  width: 50%;
   font-size: 20px;
 }
 /deep/.van-cell__title{
@@ -40,7 +45,7 @@ export default {
 /deep/.van-cell__value{
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: flex-end;
 }
 /deep/.van-cell__label{
   color:orangered;
