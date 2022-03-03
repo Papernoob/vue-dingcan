@@ -4,7 +4,7 @@
     <header>
       <div class="shopDetailBox">
          <div class="shopImage">
-          <img src="" alt="" style="background:gray;width: 100px;height:100px;">
+          <img src="" alt="" style="background:gray;width: 100px;height:100px;"/>
         </div>
         <div class="shopDetail">
           <h2 class="shopName">沙县小吃</h2>
@@ -12,9 +12,9 @@
         </div>
       </div>
     </header>
-    <main>
+    <main ref="mainbox">
     <!-- 左侧边栏导航 -->
-      <van-sidebar v-model="active" id="sidebarNav">
+      <van-sidebar v-model="active" ref="sidebarNav" id="sideBarNav">
         <van-sidebar-item title="类别1" />
         <van-sidebar-item title="类别2" />
         <van-sidebar-item title="类别3" />
@@ -26,32 +26,55 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <FoodsComponent></FoodsComponent>
+        <FoodsComponent/>
       </van-list>
+      <!-- <FoodsDetails></FoodsDetails> -->
+      <Sku-Component :showOrNot="showSku"/>
     </main>
+    div.
+    <van-goods-action>
+      <van-goods-action-icon icon="shopping-cart" color="#f46b45" @click="shopCart"/>
+      <template v-solt="GoodsActionButton">
+        <van-button color="#f46b45" text="立即结算" @click="onClickButton" size="normal" round />
+      </template>
+      <!-- <van-goods-action-button
+        type="danger"
+        text="立即结算"
+        @click="onClickButton"
+
+      /> -->
+    </van-goods-action>
   </div>
 </template>
 
 <script>
 import FoodsComponent from '@/components/FoodsComponent.vue'
+// import FoodsDetails from '@/components/FoodDetails.vue'
+import SkuComponent from '@/components/SkuComponent.vue'
 export default {
   name: 'ShopView',
   mounted () { // 侦听滚动事件确保侧边导航在顶部
     window.addEventListener('scroll', this.handlerScroll)
+  },
+  components: {
+    FoodsComponent,
+    // FoodsDetails,
+    SkuComponent
   },
   data () {
     return {
       active: 0,
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      showSku: false
     }
   },
   methods: {
     handlerScroll () {
       const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
-      const sideBarNav = document.getElementById('sidebarNav')
-      const offsetTop = document.querySelector('main').offsetTop
+      const sideBarNav = this.$refs.sidebarNav.$el
+      const offsetTop = this.$refs.mainbox.offsetTop
       if (scrollTop >= offsetTop) {
         sideBarNav.style.top = scrollTop - offsetTop + 'px'
       } else {
@@ -72,10 +95,10 @@ export default {
           this.finished = true
         }
       }, 1000)
-    }
-  },
-  components: {
-    FoodsComponent
+    },
+    shopCart () {
+    },
+    onClickButton () {}
   }
 }
 </script>
@@ -104,15 +127,31 @@ export default {
     display: flex;
     align-content: flex-start;
   }
-  .van-sidebar{
+  /deep/.van-sidebar{
     display: inline-block;
     position: relative;
     top: 0;
     height: 100vh;
+    background-color: #f7f8fa;
   }
-  .van-list{
+  /deep/.van-list{
     display: inline-block;
     height: 100vh;
     width: 100vw;
+  }
+  /deep/.van-goods-action{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 75px;
+    box-shadow:  0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+  }
+  /deep/.van-goods-action-icon__icon{
+    font-size: 30px;
+  }
+  /deep/.van-goods-action-icon{
+    background-color: initial;
   }
 </style>
