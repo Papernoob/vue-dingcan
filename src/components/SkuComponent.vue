@@ -64,14 +64,10 @@ export default {
               {
                 id: '2', // skuValueId：规格值 id
                 name: '中份' // skuValueName：规格值名称
-              // imgUrl: 'https://img01.yzcdn.cn/vant/cat.jpeg', // 规格类目图片，只有第一个规格类目可以定义图片
-              // previewImgUrl: 'https://img01.yzcdn.cn/vant/cat.jpeg'// 用于预览显示的规格类目图片
               },
               {
                 id: '3', // skuValueId：规格值 id
                 name: '大份' // skuValueName：规格值名称
-              // imgUrl: 'https://img01.yzcdn.cn/vant/cat.jpeg', // 规格类目图片，只有第一个规格类目可以定义图片
-              // previewImgUrl: 'https://img01.yzcdn.cn/vant/cat.jpeg'// 用于预览显示的规格类目图片
               }
             ],
             largeImageMode: false //  是否展示大图模式
@@ -92,14 +88,14 @@ export default {
             // s2: '2', // 规格类目 k_s 为 s2 的对应规格值 id
             price: 100, // 价格（单位分）
             stock_num: 110 // 当前 sku 组合对应的库存
-          },
-          {
-            id: 2259, // skuId
-            s1: '3', // 规格类目 k_s 为 s1 的对应规格值 id
-            // s2: '2', // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 0, // 价格（单位分）
-            stock_num: 0 // 当前 sku 组合对应的库存
           }
+          // {
+          //   id: 2259, // skuId
+          //   s1: '3', // 规格类目 k_s 为 s1 的对应规格值 id
+          //   // s2: '2', // 规格类目 k_s 为 s2 的对应规格值 id
+          //   price: 0, // 价格（单位分）
+          //   stock_num: 1 // 当前 sku 组合对应的库存
+          // }
         ],
         price: '1.00', // 默认价格（单位元）
         stock_num: 110, // 商品总库存
@@ -110,27 +106,27 @@ export default {
       goods: {
         // 数据结构见下方文档
         picture: 'https://img01.yzcdn.cn/vant/cat.jpeg'
-      },
-      skuData: {
-        // 商品 id
-        goodsId: '946755',
-        // 留言信息
-        messages: {
-          message_0: '12',
-          message_1: ''
-        },
-        // 选择的商品数量
-        selectedNum: 1,
-        // 选择的 sku 组合
-        selectedSkuComb: {
-          id: 2257,
-          price: 100,
-          s1: '30349',
-          s2: '1193',
-          s3: '0',
-          stock_num: 111
-        }
       }
+      // skuData: {
+      //   // 商品 id
+      //   goodsId: '946755',
+      //   // 留言信息
+      //   messages: {
+      //     message_0: '12',
+      //     message_1: ''
+      //   },
+      //   // 选择的商品数量
+      //   selectedNum: 1,
+      //   // 选择的 sku 组合
+      //   selectedSkuComb: {
+      //     id: 2257,
+      //     price: 100,
+      //     s1: '30349',
+      //     s2: '1193',
+      //     s3: '0',
+      //     stock_num: 111
+      //   }
+      // }
     }
   },
   props: {

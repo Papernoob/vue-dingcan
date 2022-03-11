@@ -31,17 +31,19 @@
       <!-- <FoodsDetails></FoodsDetails> -->
       <Sku-Component :showOrNot="showSku"/>
     </main>
-    <van-goods-action>
-      <van-goods-action-icon icon="shopping-cart" color="#f46b45" @click="shopCart" :badge="`${badge}`"/>
-      <p>合计：<span>￥{{ totalPrice }}</span></p>
-      <van-button
-      color="#f46b45"
-      text="立即结算"
-      size="normal"
-      round
-      @click="onClickButton"/>
-    </van-goods-action>
-    <ShoppingCart/>
+    <footer>
+      <ShoppingCart class="shoppingCartBox"/>
+      <van-goods-action class="settlementBar">
+        <van-goods-action-icon icon="shopping-cart" color="#f46b45" @click="shopCart" :badge="`${badge}`" class="footer"/>
+        <p>合计：<span>￥{{ totalPrice }}</span></p>
+        <van-button
+        color="#f46b45"
+        text="立即结算"
+        size="normal"
+        round
+        @click="onClickButton"/>
+      </van-goods-action>
+    </footer>
   </div>
 </template>
 
@@ -112,7 +114,7 @@ export default {
   header{
     height: 25vh;
     margin-bottom: 12vh;
-    background-image: linear-gradient(to bottom ,#f46b45,#eea849;);
+    background-image: linear-gradient(to bottom ,#ff3700,#eea849,rgba(0,0,0,0));
   }
   .shopDetailBox{
     display: flex;
@@ -145,19 +147,33 @@ export default {
     height: 100vh;
     width: 100vw;
   }
+  footer{
+    position: fixed;
+    bottom: 0;
+    box-shadow:  0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+    height: 75px;
+    width: 100%;
+  }
   /deep/.van-goods-action{
     display: flex;
     justify-content: space-between;
     padding-left: 20px;
     padding-right: 20px;
     height: 75px;
-    box-shadow:  0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-    border-radius: 10px 10px 0 0;
   }
   /deep/.van-goods-action-icon__icon{
     font-size: 30px;
   }
   /deep/.van-goods-action-icon{
     background-color: initial;
+  }
+  /deep/.settlementBar{
+    z-index: 2045;
+    border-radius: 10px 10px 0 0;
+  }
+  /deep/.shoppingCartBox{
+    margin-bottom: 50px;
+    padding-bottom: 30px;
   }
 </style>

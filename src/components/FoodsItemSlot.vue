@@ -3,7 +3,7 @@
     <van-image width="100" :src="`${imgsrc}`" fit="cover"/>
     <van-cell title="面条" label="￥20">
       <!-- todo 点击选规格显示 -->
-      <slot name="selectSku">
+      <slot name="right-part">
         <van-button round type="warning" size="mini" @click="showSku()">选规格</van-button>
       </slot>
     </van-cell>
@@ -29,8 +29,12 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+/deep/.van-cell{
+  padding:  0 10px 0;
+}
 /deep/.van-image{
-  padding: 5px;
+  // padding: 5px;
+  // align-self: center;
 }
 /deep/img{
   border-radius: 5px;
