@@ -1,5 +1,5 @@
 <template>
-  <van-stepper slot="right-part" v-model="value" min="1"/>
+  <van-stepper slot="right-part" v-model="value" min="0"/>
 </template>
 <script>
 export default {
