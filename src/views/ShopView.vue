@@ -9,8 +9,13 @@
             alt=""
             style="background: gray; width: 100px; height: 100px" />
         </div> -->
-        <van-image width="100" height="100" class="shopImg" :src="shopImg" fit="cover"></van-image>
-        <div class="shopDetail" style="margin-left:10px">
+        <van-image
+          width="100"
+          height="100"
+          class="shopImg"
+          :src="shopImg"
+          fit="cover"></van-image>
+        <div class="shopDetail" style="margin-left: 10px">
           <h2 class="shopName">{{ shopName }}</h2>
           <span>公告：欢迎光临本店，很高兴为您服务。</span>
         </div>
@@ -168,7 +173,9 @@ export default {
       const sc = this.$refs.ShoppingCart
       sc.toggleShow()
     },
-    onClickButton() {},
+    onClickButton() {
+      this.$router.push('/confirm')
+    },
 
     /**
      * 点击tab标签移动到对应位置
@@ -186,6 +193,8 @@ export default {
      *  滚动高度位置对应tab标签
      */
     handlerScroll() {
+      const href = 'http://localhost:8080/#/'
+      if (window.location.href !== href) return 0
       const tops = this.scrollTop
       if (window.scrollY < tops[1] / 2) this.active = 0
       else if (window.scrollY < (tops[2] / 4) * 3) this.active = 1
