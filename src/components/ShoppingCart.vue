@@ -4,20 +4,24 @@
     closeable
     close-icon="cross"
     title="已选物品">
-    <FoodsItemSlot>
-      <Counter slot="right-part" />
-    </FoodsItemSlot>
-    <FoodsItemSlot>
-      <Counter slot="right-part" />
-    </FoodsItemSlot>
-    <FoodsItemSlot>
-      <Counter slot="right-part" />
+    <FoodsItemSlot
+      v-for="item in shopCartList"
+      :key="item.skuid"
+      :goodsDetail="getGoodsDataById(item.id)"
+      :price="item.price"
+      :type="item.type">
+      <Counter
+        slot="right-part"
+        :num="item.selectedNum"
+        @eventPlusBtnClick="handlerPlusBtnClick(item.skuid)"
+        @eventMinusBtnClick="handlerMinusBtnClick(item.skuid)" />
     </FoodsItemSlot>
   </van-action-sheet>
 </template>
 <script>
 import FoodsItemSlot from '@/components/FoodsItemSlot.vue'
 import Counter from '@/components/Counter.vue'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'shoppingCart',
   components: {
@@ -29,6 +33,21 @@ export default {
       show: false,
       value: 0,
     }
+  },
+  computed: {
+    ...mapState(['shopCartList']),
+    ...mapGetters(['getGoodsDataById']),
+  },
+  methods: {
+    toggleShow() {
+      this.show ? (this.show = false) : (this.show = true)
+    },
+    handlerPlusBtnClick(id) {
+      this.$store.commit('CartGoodsPlusMut', id)
+    },
+    handlerMinusBtnClick(id) {
+      this.$store.commit('CartGoodsMinusMut', id)
+    },
   },
 }
 </script>
@@ -45,7 +64,7 @@ export default {
   content: ' ';
   pointer-events: none;
   right: 16px;
-  bottom: 0;
+  bottom: -10px;
   left: 16px;
   border-bottom: 1px solid #ebedf0;
   -webkit-transform: scaleY(0.5);

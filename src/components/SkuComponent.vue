@@ -3,10 +3,12 @@
     v-model="show"
     :sku="skuData"
     :goods="goods"
-    :goods-id="goodsId"
+    :goods-id="goodsData_id"
     :quota="0"
     :quota-used="0"
     :show-soldout-sku="false"
+    :hide-stock="true"
+    :initial-sku="initialSku"
     show-add-cart-btn
     reset-stepper-on-hide
     @add-cart="onAddCartClicked">
@@ -37,8 +39,6 @@ export default {
   data() {
     return {
       show: false,
-      goodsId: 123,
-      shopid: 233,
       tree: [
         {
           k: '分量', // skuKeyName：规格类目名称
@@ -62,10 +62,20 @@ export default {
           largeImageMode: false, //  是否展示大图模式
         },
       ],
+      initialSku: {
+        s1: 'n',
+        selectedNum: 1,
+      },
     }
   },
   computed: {
-    ...mapState(['goodsData_img', 'price_s', 'price_n', 'price_l']),
+    ...mapState([
+      'goodsData_img',
+      'price_s',
+      'price_n',
+      'price_l',
+      'goodsData_id',
+    ]),
     ...mapGetters(['getlist']),
     skuData() {
       return {
@@ -84,13 +94,10 @@ export default {
   },
   props: {},
   methods: {
-    onAddCartClicked(e) {
-      console.log(e)
-      const a = JSON.stringify(e)
-      console.log(a)
-    },
-    gaibian() {
-      console.log(this.sku.list)
+    onAddCartClicked(target) {
+      this.$store.dispatch('addShopCartAct', target)
+      const sku = this.$children[0]
+      sku.show = false
     },
   },
 }

@@ -3,14 +3,15 @@
     <!-- 店铺信息 -->
     <header>
       <div class="shopDetailBox">
-        <div class="shopImage">
+        <!-- <div class="shopIma">
           <img
             src=""
             alt=""
             style="background: gray; width: 100px; height: 100px" />
-        </div>
-        <div class="shopDetail">
-          <h2 class="shopName">沙县小吃</h2>
+        </div> -->
+        <van-image width="100" height="100" class="shopImg" :src="shopImg" fit="cover"></van-image>
+        <div class="shopDetail" style="margin-left:10px">
+          <h2 class="shopName">{{ shopName }}</h2>
           <span>公告：欢迎光临本店，很高兴为您服务。</span>
         </div>
       </div>
@@ -40,9 +41,10 @@
           :ref="`category${item.id}`">
           <h4>{{ item.category }}</h4>
           <FoodsItemSlot
-            v-for="(goods, index) in typeGoods(item.id)"
-            :key="index"
-            :goodsDetail="typeGoods(item.id)[index]"
+            v-for="goods in typeGoods(item.id)"
+            :key="goods.good_id"
+            :goodsDetail="goods"
+            :price="goods.good_price.n"
             @eventSelectSku="handlerSelectSku" />
         </div>
       </van-list>
@@ -50,16 +52,16 @@
       <Sku-Component ref="skuCompent" />
     </main>
     <footer>
-      <ShoppingCart class="shoppingCartBox" />
+      <ShoppingCart class="shoppingCartBox" ref="ShoppingCart" />
       <van-goods-action class="settlementBar">
         <van-goods-action-icon
           icon="shopping-cart"
           color="#f46b45"
           @click="shopCart"
-          :badge="`${badge}`"
+          :badge="getCartListBadge"
           class="footer" />
         <p>
-          合计：<span>￥{{ totalPrice }}</span>
+          <span>{{ getTotalPrice }}</span>
         </p>
         <van-button
           color="#f46b45"
@@ -78,6 +80,7 @@ import FoodsItemSlot from '@/components/FoodsItemSlot.vue'
 import SkuComponent from '@/components/SkuComponent.vue'
 import ShoppingCart from '@/components/ShoppingCart.vue'
 import { mapState, mapGetters } from 'vuex'
+import require from '@/utils/axios'
 export default {
   name: 'ShopView',
   components: {
@@ -90,11 +93,13 @@ export default {
   data() {
     return {
       active: 0,
+      shopName: '',
+      shopImg: '',
       loading: false,
       finished: false,
       // showSku: false,
-      totalPrice: 20,
-      badge: 15,
+      // totalPrice: 20,
+      // badge: 15,
       scrollTops: null,
       shopList: null,
       // skuData: null,
@@ -103,7 +108,7 @@ export default {
 
   computed: {
     ...mapState(['goodsList', 'categories']),
-    ...mapGetters(['typeGoods']),
+    ...mapGetters(['typeGoods', 'getCartListBadge', 'getTotalPrice']),
     /**
      * 获取tab标签对应盒子的scrolltop
      */
@@ -122,13 +127,14 @@ export default {
     // // 侦听滚动事件确保侧边导航在顶部
     window.addEventListener('scroll', this.handlerScroll)
     // this.handlerScroll()
-    console.log(this.$refs)
+    // console.log(this.$refs)
   },
   updated() {},
   methods: {
     init() {
       this.$store.dispatch('getAllgoodsAct')
       this.$store.dispatch('getAllcategoriesAct')
+      this.getShopData()
     },
     onLoad() {
       // 异步更新数据
@@ -149,7 +155,19 @@ export default {
         this.finished = true
       }, 3000)
     },
-    shopCart() {},
+    async getShopData() {
+      try {
+        const { data } = await require.get('users/getUser')
+        this.shopName = data.nickname
+        this.shopImg = data.user_img
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    shopCart() {
+      const sc = this.$refs.ShoppingCart
+      sc.toggleShow()
+    },
     onClickButton() {},
 
     /**
@@ -157,11 +175,10 @@ export default {
      */
     scollVerticalPosition(index) {
       const category = 'category' + (index + 1)
-      // const scollTop = console.log(category)
       const target = this.$refs[category][0]
       window.scrollTo({
         top: target.offsetTop,
-        // behavior: 'smooth',
+        // behavior: 'smooth',  //  平滑模式
       })
     },
 
@@ -169,7 +186,6 @@ export default {
      *  滚动高度位置对应tab标签
      */
     handlerScroll() {
-      // console.log(this.scrollTop)
       const tops = this.scrollTop
       if (window.scrollY < tops[1] / 2) this.active = 0
       else if (window.scrollY < (tops[2] / 4) * 3) this.active = 1
@@ -180,11 +196,10 @@ export default {
      * 控制展示sku
      */
     handlerSelectSku(target) {
-      // console.log(target)
-      const skuCompent = this.$refs.skuCompent
-      skuCompent.show = true
-      this.$store.commit('goodsDataMut', target)
-      console.log(skuCompent)
+      this.$store.commit('goodsDataMut', target) //  传入当前选中的目标的对象
+      const sku = this.$refs.skuCompent.$children[0] //  获取个人组件实例里的sku组件
+      sku.resetSelectedSku() // 调用重置初始化
+      sku.show = true //  展示
     },
   },
 }
@@ -205,6 +220,7 @@ header {
   display: flex;
   flex: 1;
   justify-content: space-around;
+  align-items: center;
   position: relative;
   width: 94%;
   padding: 5px;
