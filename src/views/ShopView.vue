@@ -163,6 +163,7 @@ export default {
     async getShopData() {
       try {
         const { data } = await require.get('users/getUser')
+        this.$store.commit('shopDetailMut', data.nickname)
         this.shopName = data.nickname
         this.shopImg = data.user_img
       } catch (error) {
@@ -173,8 +174,22 @@ export default {
       const sc = this.$refs.ShoppingCart
       sc.toggleShow()
     },
-    onClickButton() {
-      this.$router.push('/confirm')
+    async onClickButton() {
+      await this.$nextTick()
+      if (this.getCartListBadge === 0) return this.$toast('你还未选择商品')
+      this.$toast.loading({
+        forbidClick: true,
+        loadingType: 'spinner',
+        duration: 500,
+      })
+      return setTimeout(() => {
+        // const id = this.$route.params.id
+        this.$router.push({
+          // path: `/${id}/confirm`,
+          name: 'OrderConfirmView',
+          params: { select: true },
+        })
+      }, 500)
     },
 
     /**
