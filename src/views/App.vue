@@ -1,8 +1,7 @@
 <template>
   <div>
-     <!-- 占位符 -->
-     <router-view>
-     </router-view>
+    <!-- 占位符 -->
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -17,9 +16,9 @@ export default {
   //   }
   // }
   methods: {
-    onClickLeft () {
-      this.$toast('点击了返回')
-    }
+    // onClickLeft () {
+    //   this.$toast('点击了返回')
+    // }
   }
 }
 </script>
