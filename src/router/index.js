@@ -9,18 +9,41 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'ShopView',
+    // name: 'ShopView',
+    redirect: '/1/shop',
     component: ShopView,
   },
+  { path: '/:id/shop', component: ShopView, name: 'shop' },
   {
-    path: '/ordering',
-    name: 'OrderingView',
-    component: Ordering,
-  },
-  {
-    path: '/confirm',
+    path: '/:id/confirm',
     name: 'OrderConfirmView',
     component: OrderConfirm,
+    beforeEnter: (to, from, next) => {
+      const isSelected = to.params.select
+      if (from.name !== 'shop') {
+        next({ path: `/${to.params.id}/shop` })
+      } else if (isSelected !== true) {
+        next({ path: `/${to.params.id}/shop` })
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/:id/ordering',
+    name: 'OrderingView',
+    component: Ordering,
+    beforeEnter: (to, from, next) => {
+      // 模拟检查是否已支付
+      const checkout = to.query.paid
+      if (from.name !== 'OrderConfirmView') {
+        next({ path: `/${to.params.id}/shop` })
+      } else if (checkout !== 'hadpaid') {
+        next({ path: `/${to.params.id}/shop` })
+      } else {
+        next()
+      }
+    },
   },
 ]
 
