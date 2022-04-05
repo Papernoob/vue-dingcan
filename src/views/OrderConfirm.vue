@@ -23,65 +23,122 @@
         </template>
         <template slot="price">
           <span style="font-size: 16px; color: orangered">￥</span>
-          <span style="font-size: 16px; color: orangered">{{ item.price }}</span>
+          <span style="font-size: 16px; color: orangered">{{
+            item.price
+          }}</span>
         </template>
       </van-card>
     </main>
     <footer>
       <van-goods-action>
-        <van-cell :value="getTotalPrice" style="width: 35%;font-size:16px" />
+        <van-cell :value="getTotalPrice" style="width: 35%; font-size: 16px" />
         <van-goods-action-button
           type="danger"
           text="立即支付"
-          @click="onClickButton" />
+          @click="orderConfirm" />
       </van-goods-action>
     </footer>
   </div>
 </template>
 <script>
+import { nanoid } from 'nanoid'
+import moment from 'moment'
 import { mapState, mapGetters } from 'vuex'
+import mixins from '@/utils/mixins'
+import require from '@/utils/axios'
+// import axios from 'axios'
 // import FoodsItem from '@/components/FoodsItemSlot.vue'
 export default {
   name: 'OrderConfirmView',
   components: {
     // FoodsItem,
   },
+  mixins: [mixins],
   data() {
     return {}
   },
   computed: {
     ...mapState(['shopCartList']),
     ...mapGetters(['getGoodsDataById', 'getTotalPrice']),
-    labelText() {
-      return t => {
-        let type = ''
-        switch (t) {
-          case 's':
-            type = '小份'
-            break
-          case 'n':
-            type = '正常'
-            break
-          case 'l':
-            type = '大份'
-            break
-          default:
-            break
-        }
-        return type
-      }
-    },
   },
   methods: {
     onClickLeft() {
       this.$router.back()
     },
+    async orderConfirm() {
+      //  提示符号
+      this.$toast.loading({
+        forbidClick: true,
+        loadingType: 'spinner',
+        // duration: 1000,
+      })
+      //  生成nanoid和时间
+      const nid = nanoid()
+      const createdTime = moment().format()
+
+      //  发送结算请求 此处模拟异步
+      const settlement = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const boolean = true // 控制是否成功结算
+            // const boolean = false // 控制是否成功结算
+            if (boolean) return resolve('success')
+            return reject(new Error('fault'))
+          }, 2000)
+        })
+      }
+      try {
+        // 暂存购物车内容通过router传送
+        const goodsItems = [...this.shopCartList]
+        await settlement()
+        this.$store.commit('OrderingConfirmMut', {
+          nanoid: nid,
+          createdTime: createdTime,
+        })
+        // console.log(goodsItems)
+        const tid = this.$route.params.id
+        const ordering = {
+          nanoid: nid,
+          createdTime: createdTime,
+          cartItems: goodsItems,
+          tableId: tid,
+        }
+        const { data } = await require.post('/api/orders', {
+          ordering: ordering,
+        })
+        // console.log(data)
+        this.$router.push({
+          // path: `/${tableid}/ordering`,
+          name: 'OrderingView',
+          query: { paid: 'hadpaid' },
+          params: { cartItems: goodsItems, number: data },
+        })
+      } catch (error) {
+        this.$toast('支付失败')
+      }
+
+      // try {
+      //   const res = this.$store.dispatch('confirmOrderingAct', {
+      //     nanoid: nid,
+      //     createdTime: createdTime,
+      //   })
+      //   console.log(res)
+      //   const id = this.$route.params.id
+      //   this.$router.push(`/${id}/ordering`)
+      // } catch (error) {
+      //   this.$toast('支付失败')
+      //   // console.log(error)
+      // }
+    },
+    /**
+     * 提交订单信息
+     */
   },
 }
 </script>
 <style lang="less" scoped>
 /deep/main {
-  padding: 10px 10px 60px 10px;
+  padding: 50px 10px 60px 10px;
 }
 /deep/.van-card {
   font-size: 16px;
