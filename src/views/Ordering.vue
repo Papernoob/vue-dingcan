@@ -80,7 +80,6 @@ main {
   position: relative;
   min-height: 80vh;
   background-color: #f7f8fa;
-  // margin-top: calc((@h - @titleHeight) * -1);
 }
 .border-radius5 {
   border-radius: 5px;
@@ -101,7 +100,6 @@ main {
   padding-top: constant(safe-area-inset-top); //兼容 IOS<11.2
   padding-top: env(safe-area-inset-top); //兼容 IOS>11.2
   height: @h;
-  // margin-bottom: calc((@h - @titleHeight) * -1);
   background-image: linear-gradient(to bottom, #ff3700, #eea849, #f7f8fa);
 }
 /deep/.van-nav-bar {

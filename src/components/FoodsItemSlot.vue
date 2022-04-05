@@ -19,7 +19,6 @@ export default {
       id: this.goodsDetail.good_id,
       name: this.goodsDetail.good_name,
       imgsrc: this.goodsDetail.good_img,
-      // price: this.goodsDetail.good_price,
       value: 1,
     }
   },

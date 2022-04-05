@@ -9,7 +9,6 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    // name: 'ShopView',
     redirect: '/1/shop',
     component: ShopView,
   },

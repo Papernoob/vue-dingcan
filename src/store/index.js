@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import require from '@/utils/axios.js'
-
-// import router from 'vue-router'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -96,7 +94,6 @@ export default new Vuex.Store({
     },
     addShopCartMut(state, value) {
       // 数组为0直接添加 跳过啊下面操作
-      // console.log(value)
       if (state.shopCartList.length === 0) return state.shopCartList.push(value)
       const hasSame = state.shopCartList.find(item => {
         if (item.skuid === value.skuid) {
@@ -161,7 +158,6 @@ export default new Vuex.Store({
     getAllcategoriesAct: async context => {
       try {
         const { data } = await require.get('/api/categories')
-        /* data  该返回有两个属性goods和listcount */
         context.commit('allCategoriesMut', data.categories)
       } catch (error) {
         console.log('出错')
@@ -180,10 +176,6 @@ export default new Vuex.Store({
       }
       context.commit('addShopCartMut', shopItem)
     },
-    //   confirmOrderingAct: async (context, payload) => {
-    //     //  暂存shoplist
-    //     // const shopCartItems = [...context.state.shopCartList]
-    //     // context.commit('clearShopCartMut')
   },
   modules: {},
 })

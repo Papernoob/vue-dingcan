@@ -46,12 +46,9 @@ import moment from 'moment'
 import { mapState, mapGetters } from 'vuex'
 import mixins from '@/utils/mixins'
 import require from '@/utils/axios'
-// import axios from 'axios'
-// import FoodsItem from '@/components/FoodsItemSlot.vue'
 export default {
   name: 'OrderConfirmView',
   components: {
-    // FoodsItem,
   },
   mixins: [mixins],
   data() {
@@ -95,7 +92,6 @@ export default {
           nanoid: nid,
           createdTime: createdTime,
         })
-        // console.log(goodsItems)
         const tid = this.$route.params.id
         const ordering = {
           nanoid: nid,
@@ -106,9 +102,7 @@ export default {
         const { data } = await require.post('/api/orders', {
           ordering: ordering,
         })
-        // console.log(data)
         this.$router.push({
-          // path: `/${tableid}/ordering`,
           name: 'OrderingView',
           query: { paid: 'hadpaid' },
           params: { cartItems: goodsItems, number: data },
@@ -116,23 +110,7 @@ export default {
       } catch (error) {
         this.$toast('支付失败')
       }
-
-      // try {
-      //   const res = this.$store.dispatch('confirmOrderingAct', {
-      //     nanoid: nid,
-      //     createdTime: createdTime,
-      //   })
-      //   console.log(res)
-      //   const id = this.$route.params.id
-      //   this.$router.push(`/${id}/ordering`)
-      // } catch (error) {
-      //   this.$toast('支付失败')
-      //   // console.log(error)
-      // }
     },
-    /**
-     * 提交订单信息
-     */
   },
 }
 </script>

@@ -17,7 +17,6 @@ export default {
   props: ['num'],
   methods: {
     onPlusClick() {
-      // console.log('增加')
       this.$emit('eventPlusBtnClick')
     },
     onMinusClick() {

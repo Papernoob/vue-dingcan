@@ -3,12 +3,6 @@
     <!-- 店铺信息 -->
     <header>
       <div class="shopDetailBox">
-        <!-- <div class="shopIma">
-          <img
-            src=""
-            alt=""
-            style="background: gray; width: 100px; height: 100px" />
-        </div> -->
         <van-image
           width="100"
           height="100"
@@ -53,7 +47,6 @@
             @eventSelectSku="handlerSelectSku" />
         </div>
       </van-list>
-      <!-- <FoodsDetails></FoodsDetails> -->
       <Sku-Component ref="skuCompent" />
     </main>
     <footer>
@@ -81,7 +74,6 @@
 
 <script>
 import FoodsItemSlot from '@/components/FoodsItemSlot.vue'
-// import FoodsDetails from '@/components/FoodDetails.vue'
 import SkuComponent from '@/components/SkuComponent.vue'
 import ShoppingCart from '@/components/ShoppingCart.vue'
 import { mapState, mapGetters } from 'vuex'
@@ -90,7 +82,6 @@ export default {
   name: 'ShopView',
   components: {
     FoodsItemSlot,
-    // FoodsDetails,
     SkuComponent,
     ShoppingCart,
   },
@@ -102,12 +93,8 @@ export default {
       shopImg: '',
       loading: false,
       finished: false,
-      // showSku: false,
-      // totalPrice: 20,
-      // badge: 15,
       scrollTops: null,
       shopList: null,
-      // skuData: null,
     }
   },
 
@@ -131,8 +118,6 @@ export default {
   mounted() {
     // // 侦听滚动事件确保侧边导航在顶部
     window.addEventListener('scroll', this.handlerScroll)
-    // this.handlerScroll()
-    // console.log(this.$refs)
   },
   updated() {},
   methods: {
@@ -142,21 +127,7 @@ export default {
       this.getShopData()
     },
     onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      // setTimeout(() => {
-      //   for (let i = 0; i < 5; i++) {
-      //     this.list.push(this.list.length + 1)
-      //   }
-      //   // 加载状态结束
-      //   this.loading = false
-      //   // 数据全部加载完成
-      //   if (this.list.length >= 10) {
-      //     this.finished = true
-      //   }
-      // }, 1000)
       setTimeout(() => {
-        // this.loading = false
         this.finished = true
       }, 3000)
     },
@@ -183,9 +154,7 @@ export default {
         duration: 500,
       })
       return setTimeout(() => {
-        // const id = this.$route.params.id
         this.$router.push({
-          // path: `/${id}/confirm`,
           name: 'OrderConfirmView',
           params: { select: true },
         })
