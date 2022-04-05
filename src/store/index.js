@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import require from '@/utils/axios.js'
 
+// import router from 'vue-router'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    shopName: '',
     goodsList: '',
     goodsListCount: '',
     categories: '',
@@ -18,6 +20,8 @@ export default new Vuex.Store({
     price_l: '',
     shopCartList: [],
     totalPrices: 0,
+    nanoid: '',
+    orderCreatedTime: '',
   },
   getters: {
     typeGoods(state) {
@@ -71,6 +75,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    shopDetailMut(state, value) {
+      state.shopName = value
+    },
     allGoodsMut(state, value) {
       state.goodsList = value
       state.goodsListCount = value.length
@@ -89,7 +96,7 @@ export default new Vuex.Store({
     },
     addShopCartMut(state, value) {
       // 数组为0直接添加 跳过啊下面操作
-      console.log(value)
+      // console.log(value)
       if (state.shopCartList.length === 0) return state.shopCartList.push(value)
       const hasSame = state.shopCartList.find(item => {
         if (item.skuid === value.skuid) {
@@ -99,6 +106,9 @@ export default new Vuex.Store({
         return undefined
       })
       if (hasSame === undefined) return state.shopCartList.push(value)
+    },
+    clearShopCartMut(state, value) {
+      state.shopCartList = []
     },
     CartGoodsPlusMut(state, value) {
       state.shopCartList.find(item => {
@@ -129,6 +139,12 @@ export default new Vuex.Store({
       if (res !== undefined) {
         state.shopCartList = list.filter(item => item.skuid !== res.skuid)
       }
+    },
+
+    OrderingConfirmMut(state, value) {
+      state.nanoid = value.nanoid
+      state.orderCreatedTime = value.createdTime
+      state.shopCartList = []
     },
   },
   actions: {
@@ -164,11 +180,10 @@ export default new Vuex.Store({
       }
       context.commit('addShopCartMut', shopItem)
     },
-    // CartGoodsPlusAct: (context, skuid) => {
-    //   const list = context.state.shopCartList
-    //   list.find((item, index) => {)
-    // },
-    // CartGoodsMinusAct: (context, skuid) => {},
+    //   confirmOrderingAct: async (context, payload) => {
+    //     //  暂存shoplist
+    //     // const shopCartItems = [...context.state.shopCartList]
+    //     // context.commit('clearShopCartMut')
   },
   modules: {},
 })
