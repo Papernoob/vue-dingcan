@@ -22,9 +22,8 @@ npm run build
 npm run lint
 ```
 ### 程序样子
-![image](https://user-images.githubusercontent.com/68938670/169760999-1fd57bf2-6d41-430e-b41a-7600463822e4.png,"首页界面")
-
-![image](https://user-images.githubusercontent.com/68938670/169760975-e72b3484-00e9-4099-a2ea-0be991e876e3.png,"选择规模窗口")
+![image](https://user-images.githubusercontent.com/68938670/169760999-1fd57bf2-6d41-430e-b41a-7600463822e4.png)
+![image](https://user-images.githubusercontent.com/68938670/169760975-e72b3484-00e9-4099-a2ea-0be991e876e3.png)
 ![image](https://user-images.githubusercontent.com/68938670/169761163-bcd71131-449b-475a-bb05-f062ecc04175.png)
 ![image](https://user-images.githubusercontent.com/68938670/169761263-3aa79b18-9be4-488c-afa3-617ff75fc8bc.png)
 ![image](https://user-images.githubusercontent.com/68938670/169761285-cd505822-514f-4d83-8c8a-6e4ce8035e5a.png)
